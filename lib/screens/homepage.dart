@@ -41,21 +41,24 @@ class _HomepageState extends State<Homepage> {
                   ),
                   // make the task widgets scrollable
                   Expanded(
-                    child: ListView(
-                      children: [
-                        // import TaskCardWidget
-                        TaskCardWidget(
-                          title: "Get Started!",
-                          desc: "Hello User! Welcome to TODO app, this is a default ask that you can edit or delete to start the app.",
-                        ),
-                        TaskCardWidget(
-                          desc: "Hello User! Welcome to TODO app, this is a default ask that you can edit or delete to start the app.",
-                        ),
-                        TaskCardWidget(),
-                        TaskCardWidget(),
-                        TaskCardWidget(),
-                        TaskCardWidget(),
-                      ],
+                    child: ScrollConfiguration(
+                      behavior: NoGlowBehaviour(),
+                      child: ListView(
+                        children: [
+                          // import TaskCardWidget
+                          TaskCardWidget(
+                            title: "Get Started!",
+                            desc: "Hello User! Welcome to TODO app, this is a default ask that you can edit or delete to start the app.",
+                          ),
+                          TaskCardWidget(
+                            desc: "Hello User! Welcome to TODO app, this is a default ask that you can edit or delete to start the app.",
+                          ),
+                          TaskCardWidget(),
+                          TaskCardWidget(),
+                          TaskCardWidget(),
+                          TaskCardWidget(),
+                        ],
+                      ),
                     ),
                   ),
                 ],
@@ -77,7 +80,11 @@ class _HomepageState extends State<Homepage> {
                     width: 60.0,
                     height: 60.0,
                     decoration: BoxDecoration(
-                      color: const Color(0xFF7349FE),
+                      gradient: LinearGradient(
+                        colors: [Color(0xFF7349FE), Color(0xFF643FDB)],
+                        begin: Alignment(0.0, -1.0),
+                        end: Alignment(0.0, 1.0)
+                      ),
                       borderRadius: BorderRadius.circular(20.0),
                     ),
                     child: const Image(
