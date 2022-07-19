@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/database_helper.dart';
 import 'package:todo_app/screens/taskpage.dart';
 import 'package:todo_app/widgets.dart';
 
@@ -10,6 +11,8 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
+
+  DatabaseHelper _dbHelper = DatabaseHelper();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,24 +44,22 @@ class _HomepageState extends State<Homepage> {
                   ),
                   // make the task widgets scrollable
                   Expanded(
-                    child: ScrollConfiguration(
-                      behavior: NoGlowBehaviour(),
-                      child: ListView(
-                        children: [
-                          // import TaskCardWidget
-                          TaskCardWidget(
-                            title: "Get Started!",
-                            desc: "Hello User! Welcome to TODO app, this is a default ask that you can edit or delete to start the app.",
+                    child: FutureBuilder(
+                      initialData: [],
+                      future: _dbHelper.getTasks(),
+                      builder: (context, snapshot) {
+                        return ScrollConfiguration(
+                          behavior: NoGlowBehaviour(),
+                          child: ListView.builder(
+                            itemCount: snapshot.data.length,
+                            itemBuilder: (context, index) {
+                              return TaskCardWidget(
+                                title: snapshot.data[index].title,
+                              );
+                            },
                           ),
-                          TaskCardWidget(
-                            desc: "Hello User! Welcome to TODO app, this is a default ask that you can edit or delete to start the app.",
-                          ),
-                          TaskCardWidget(),
-                          TaskCardWidget(),
-                          TaskCardWidget(),
-                          TaskCardWidget(),
-                        ],
-                      ),
+                        );
+                      },
                     ),
                   ),
                 ],
@@ -74,7 +75,9 @@ class _HomepageState extends State<Homepage> {
                     Navigator.push(
                       context, 
                       MaterialPageRoute(builder: (context) => Taskpage()),
-                    );
+                    ).then((value) {
+                      setState(() {});
+                    });
                   },
                   child: Container(
                     width: 60.0,

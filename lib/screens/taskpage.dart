@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/database_helper.dart';
 import 'package:todo_app/widgets.dart';
+
+import '../models/task.dart';
 
 class Taskpage extends StatefulWidget {
   const Taskpage({Key? key}) : super(key: key);
@@ -27,7 +30,7 @@ class _TaskpageState extends State<Taskpage> {
                     ),
                     child: Row(
                       children: [
-                        // inkwell yo give touch ripple effect
+                        // inkwell to give touch ripple effect
                         InkWell(
                           // action on tap 
                           onTap: () {
@@ -43,6 +46,18 @@ class _TaskpageState extends State<Taskpage> {
                         const Expanded(
                           // input text field
                           child: TextField(
+                            onSubmitted: (value) async {
+                              //print("Field value: $value");
+                              
+                              if(value != "") {
+                                DatabaseHelper _dbHelper = DatabaseHelper();
+                                Task _newTask = Task(
+                                  title: value
+                                );
+                                await _dbHelper.insertTask(_newTask);
+                                print("new task has been created");
+                              }
+                            },
                             decoration: InputDecoration(
                               hintText: "Enter Task Title",
                               border: InputBorder.none,
